@@ -1,6 +1,6 @@
 use leptos::prelude::*;
 use leptos_meta::*;
-use leptos_router::{components::*, path};
+use leptos_router::{components::*, path, hooks::use_navigate};
 
 pub mod about;
 pub mod blog;
@@ -11,6 +11,21 @@ use crate::blog::{Blog, BlogPost};
 #[component]
 pub fn App() -> impl IntoView {
     provide_meta_context();
+
+    // Handle redirect from 404.html
+    Effect::new(move |_| {
+        if let Some(window) = web_sys::window() {
+            if let Ok(Some(storage)) = window.session_storage() {
+                if let Ok(Some(redirect_path)) = storage.get_item("redirect-path") {
+                    // Clear the stored path
+                    let _ = storage.remove_item("redirect-path");
+                    // Navigate to the stored path
+                    let navigate = use_navigate();
+                    navigate(&redirect_path, Default::default());
+                }
+            }
+        }
+    });
 
     view! {
     <Header />

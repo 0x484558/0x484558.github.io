@@ -1,4 +1,4 @@
-# 0x484558
+# [0x484558.dev](https://0x484558.dev)
 
 This is a Client-Side Rendered [Leptos](https://leptos.dev/) application, built with [Rust](https://www.rust-lang.org/) compiled to [WebAssembly](https://webassembly.org/) and [semantic HTML5](https://web.dev/learn/html/semantic-html/) styled with [Pico CSS](https://picocss.com/).
 

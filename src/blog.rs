@@ -1,5 +1,5 @@
 use leptos::prelude::*;
-use leptos_router::{components::*, params::Params, hooks::use_params};
+use leptos_router::{params::Params, hooks::use_params};
 
 include!(concat!(env!("OUT_DIR"), "/posts.rs"));
 
@@ -31,7 +31,7 @@ pub fn Blog() -> impl IntoView {
             key=|post| post.slug
             children=|post| view! {
                 <article class="card">
-                    <h2><A href=post.slug>{post.title}</A></h2>
+                    <h2><a href=format!("/blog/{}", post.slug)>{post.title}</a></h2>
                     <p>{post.date}</p>
                 </article>
             }

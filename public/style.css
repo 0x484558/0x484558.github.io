@@ -6,26 +6,38 @@
     --nav-link-hover-color: var(--pico-primary-hover, #c8a2c8);
 }
 
-/* Light theme (default) */
-:root {
-    --card-bg-color: var(--pico-card-background-color, #ffffff);
-    --card-border-color: var(--pico-card-border-color, #e0e0e0);
-}
-
-/* Dark theme */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --card-bg-color: var(--pico-card-background-color, #2e2e2e);
-        --card-border-color: var(--pico-card-border-color, #444);
+/* Theme overrides */
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+        --pico-card-background-color: #f5f2fa;
     }
 }
 
-/* Use Pico's existing color variables when available */
+[data-theme="light"] {
+    --pico-card-background-color: #f5f2fa;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        --pico-background-color: #121212;
+        --pico-card-background-color: #1e1e1e;
+        --pico-card-border-color: #1e1e1e;
+    }
+}
+
+[data-theme="dark"] {
+    --pico-background-color: #121212;
+    --pico-card-background-color: #1e1e1e;
+    --pico-card-border-color: #1e1e1e;
+    margin-bottom: 0;
+}
+
 body {
     color: var(--p-color);
 }
 
 h1 {
+    --pico-font-size: 2.25rem;
     color: var(--h1-color);
 }
 
@@ -42,8 +54,8 @@ nav a:hover, .card a:hover {
 }
 
 article.card {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--card-border-color);
+    background-color: var(--pico-card-background-color);
+    border: 1px solid var(--pico-card-border-color);
     border-radius: .5rem;
     padding: 1.5rem;
     margin-bottom: 2rem;
@@ -67,4 +79,43 @@ article.card h2 {
 
 article.card p {
     margin-bottom: 0;
+}
+
+body > header {
+    max-width: none;
+    border-radius: 0;
+    background-color: var(--pico-card-background-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    padding: 0.5rem max(1rem, calc((100% - var(--pico-container-width, 1100px)) / 2));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body > header hgroup {
+    margin: 0;
+}
+
+body > header hgroup p {
+    color: #5f6c7b;
+    margin: 0;
+}
+
+nav ul {
+    margin-bottom: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    article.card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    :root:not([data-theme]) body > header {
+        box-shadow: none;
+    }
+}
+
+[data-theme="dark"] body > header {
+    box-shadow: none;
 }
