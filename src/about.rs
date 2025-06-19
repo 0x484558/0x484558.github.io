@@ -1,11 +1,6 @@
 use leptos::prelude::*;
 
 #[component]
-pub fn Home() -> impl IntoView {
-    view! { <About /> }
-}
-
-#[component]
 pub fn About() -> impl IntoView {
     view! {
         <main>

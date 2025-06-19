@@ -1,0 +1,70 @@
+:root {
+    --h1-color: var(--pico-h1-color, #a991d4);
+    --h2-color: var(--pico-h2-color, #a991d4);
+    --p-color: var(--pico-color, inherit);
+    --link-color: var(--pico-primary, #a991d4);
+    --nav-link-hover-color: var(--pico-primary-hover, #c8a2c8);
+}
+
+/* Light theme (default) */
+:root {
+    --card-bg-color: var(--pico-card-background-color, #ffffff);
+    --card-border-color: var(--pico-card-border-color, #e0e0e0);
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --card-bg-color: var(--pico-card-background-color, #2e2e2e);
+        --card-border-color: var(--pico-card-border-color, #444);
+    }
+}
+
+/* Use Pico's existing color variables when available */
+body {
+    color: var(--p-color);
+}
+
+h1 {
+    color: var(--h1-color);
+}
+
+h2, h3, h4, h5, h6 {
+    color: var(--h2-color);
+}
+
+a {
+    color: var(--link-color);
+}
+
+nav a:hover, .card a:hover {
+    color: var(--nav-link-hover-color);
+}
+
+article.card {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: .5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+article.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    article.card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+}
+
+article.card h2 {
+    margin-top: 0;
+}
+
+article.card p {
+    margin-bottom: 0;
+}
