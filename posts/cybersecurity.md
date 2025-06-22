@@ -1,0 +1,204 @@
+---
+title: Cybersecurity
+date: 2025-06-22
+---
+
+Security - whether information security or physical - exists at the intersection of asset valuation, threat modeling, and risk management. To understand security, let us give precise definitions to its fundamental components.
+
+- **Assets** - Objects of protection requiring security measures. These manifest across multiple domains: physical (hardware infrastructure, facilities), informational (data at rest, data in transit, intellectual property), and reputational (brand trust, market confidence).
+- Assets are subject to **Threats** - Sources of potential harm, characterized by capability, intent, and opportunity. These range from non-directed environmental hazards to sophisticated Advanced Persistent Threats (APTs) with nation-state backing.
+- Threats manifest through **Vulnerabilities** - Exploitable weaknesses in assets or their protective controls. These may be inherent to the asset's design, emergent from complex system interactions, or introduced through flawed operational processes.
+- Vulnerabilities are exploitable in **Attacks** - The actualization of threats through vulnerability exploitation, resulting in compromise of security objectives.
+
+Security, therefore, is a practice of identifying assets, understanding the threats and vulnerabilities, and putting up defenses (controls or countermeasures) to prevent attacks.
+
+This post introduces fundamental concepts required to understand information security as a domain - minimum necessary prerequisites and general context.
+
+## Confidentiality, Integrity, Availability
+
+The strategic objectives of any information security program are articulated through the **CIA triad** - Confidentiality, Integrity, and Availability, are three principles representing the fundamental goals that security infrastructure strives to achieve.
+
+**Confidentiality** implements the concealment of information and resources, ensuring that sensitive data remains accessible only to authorized parties. This principle extends beyond simple secrecy to encompass sophisticated access control mechanisms based on the principles of least privilege and need-to-know. The implementation of confidentiality relies heavily on cryptographic controls, particularly encryption for data-in-transit (protecting information as it moves across networks) and data-at-rest (securing stored information). Modern confidentiality measures must also address inference attacks, where seemingly innocuous data can be combined to reveal sensitive information, and/or covert channels for information leakage.
+
+**Integrity** concerns the trustworthiness of data and systems, manifesting in two distinct but related forms. Data integrity ensures that information cannot undergo unauthorized modification, whether through malicious action or accidental corruption. System integrity guarantees that computational systems perform their intended functions without unauthorized alterations to their behavior. Cryptographic hash functions serve as the mathematical foundation for verifying data integrity, producing unique fingerprints that reveal any modifications. Beyond technical controls, integrity relies on comprehensive change management processes, audit trails, and version control systems that create an immutable record of all modifications.
+
+**Availability** ensures that systems and data remain reliably accessible to authorized users when needed. This principle confronts both accidental failures—hardware malfunctions, software bugs, or human errors—and deliberate attacks such as Denial-of-Service (DoS) campaigns. Achieving high availability requires architectural decisions including redundancy at multiple levels (from RAID storage to geographically distributed data centers), load balancing to distribute requests across multiple servers, and comprehensive disaster recovery planning that addresses both immediate failover and long-term business continuity.
+
+The relationship among these three principles reveals fundamental tensions in security design. Enhanced confidentiality through encryption can compromise availability if cryptographic keys become inaccessible, effectively rendering data permanently unreadable. Aggressive availability measures, such as widespread data replication, multiply the attack surface for confidentiality breaches and create synchronization challenges for maintaining integrity. Similarly, stringent integrity controls through digital signatures and verification processes can introduce latency that degrades availability. These tensions cannot be eliminated but must be carefully balanced based on the specific risk profile and operational requirements of each system.
+
+The CIA triad also exhibits interesting emergent properties when considered holistically. For instance, the concept of "non-repudiation" - ensuring that parties cannot deny their actions - emerges from the intersection of integrity (proving data hasn't been altered) and confidentiality (protecting the cryptographic credentials that establish identity). Similarly, "authenticity" arises from combining all three principles: confidentiality of authentication credentials, integrity of identity assertions, and availability of authentication services.
+
+## Security Assessment Criteria
+
+To evaluate whether a system meets the principles of the CIA triad, a formal methodology is required. The **Common Criteria for Information Technology Security Evaluation** (abbreviated as Common Criteria or CC, and standardized as ISO/IEC 15408) provides a globally recognized framework for specifying and evaluating security properties of IT products. The goal of CC is to provide a level of confidence that a product's claimed security features have been thoroughly and impartially evaluated.
+
+The CC evaluation process uses a specific vocabulary. The product or system being evaluated is the **Target of Evaluation (ToE)**. Developers make claims about their ToE's security properties in a **Security Target (ST)** document. This ST may conform to a **Protection Profile (PP)**, which is a reusable, implementation-independent document that defines a standard set of security requirements for a whole class of products (e.g., firewalls or operating systems).
+
+A central concept in the Common Criteria is the **Evaluation Assurance Level (EAL)**, a numerical rating from EAL1 to EAL7 that describes the rigor and depth of the evaluation. A higher EAL does not imply more security features; rather, it signifies that the product's security claims have been verified with a greater degree of assurance.
+
+- EAL1: Functionally Tested
+- EAL2: Structurally Tested
+- EAL3: Methodically Tested and Checked
+- EAL4: Methodically Designed, Tested, and Reviewed
+- EAL5: Semi-formally Designed and Tested
+- EAL6: Semi-formally Verified Design and Tested
+- EAL7: Formally Verified Design and Tested
+
+This progression is not merely about testing, but also about formal proof of correctness, moving from basic functional testing at EAL1 to formal, mathematical design verification at EAL7.
+
+The specific security behaviors claimed in a Security Target are defined using **Security Functional Requirements (SFRs)**. These are drawn from a standardized catalog and describe *what* a product must do to be considered secure. An ST will select a specific set of SFRs to define the exact security functions of the ToE. These requirements are grouped into families, including:
+
+- FAU (Security Audit) - transparency of system operations for violation analysis and anomaly detection.
+- FCO (Communication) - party identification and non-repudiation.
+- FCS (Cryptographic Support) - use of cryptography; key management lifecycle.
+- FDP (User Data Protection) - user data protection, including access control and information flow control.
+- FIA (Identity and Authentication) - user identity verification before granting access to ToE.
+- FMT (Security Management) - roles, security attributes, access level, and function management.
+- FPR (Privacy) - measures for protecting user privacy; anonymity, pseudonymity, unlinkability and unobservability.
+- FPT (Protection of the ToE Security functions) - protection of TOE's own security mechanisms from tampering or bypass; their integrity, secure recovery, and self-testing.
+- FRU (Resource Utilisation) - protection against resource exhaustion attacks like Denial-of-Service; fault tolerance and quality-of-service.
+- FTA (TOE Access) - access control to the TOE as a whole, session management.
+- FTP (Trusted Path/Channels) - security of communications between the user and the TOE or between components of the TOE from modification or interception.
+
+Complementing the SFRs are the **Security Assurance Requirements (SARs)**, which define *how* confidence in the correct implementation of the SFRs is achieved. SARs dictate the actions an evaluator must perform to verify the security claims. These are also grouped into families:
+
+- ADV (Development) - analysis of the design documentation, or the source code itself for higher EALs.
+- AGD (Guidance Documents) - analysis of administrator and user documentation; clarity of guidance on installation, configuration, and operation of the product in a secure manner.
+- ALC (Life-cycle Support) - assurance that the product is developed and maintained in a secure environment; requirements for developer's configuration management system and security measures, including physical security and personnel screening, and procedures for flaw remediation and secure delivery
+- ASE (Security Target Evaluation) - listing of security properties, to ensure the ST is complete, consistent, and sound.
+- ATE (Tests) - verification developer's functional tests and/or conducting independent testing.
+- AVA (Vulnerability assessment) - analysis of threat vectors and potential vulnerabilities, with AVA_VAN subclass establishing rigorous analysis from checking for publicly known vulnerabilities at low levels to sophisticated penetration testing at higher levels.
+- ACO (Composition) - assurance that the TOE composed of multiple components is secure as a whole.
+- APE (Protection Profile Evaluation) - set of requirements for certain class of products, defining actions to evaluate a PP to ensure it is complete, consistent, and useful.
+
+### European Union
+
+Within the European Union, the recognition of formal security evaluations has a long history. Initially, European nations established the **SOGIS (Senior Officials Group Information Systems Security) Mutual Recognition Agreement (MRA)**. This agreement was significant as it allowed for the mutual recognition of high-assurance Common Criteria certificates (up to EAL7) among its member states, reducing redundant evaluations for vendors.
+
+More recently, the EU has moved to further harmonize the cybersecurity landscape with the introduction of the **Cybersecurity Act (CSA)** in 2019. This act establishes a pan-European certification framework managed by **ENISA (The European Union Agency for Cybersecurity)**. A key outcome of the CSA is the **EUCC (EU Common Criteria)** scheme, which builds upon the foundations of CC and SOGIS but introduces a single, harmonized approach for all member states. A notable feature of the EUCC is its increased emphasis on the vulnerability assessment level (AVA_VAN), which defines the required resistance of a ToE against attackers with specific capabilities. While certification under the CSA is generally voluntary, individual EU nations can mandate it for critical sectors such as public services, essential infrastructure, or specific high-risk devices.
+
+## Application Security
+
+Common Criteria provide formal framework for evaluation of security which is mostly a kind of bureaucratic framework, but what about practical security for common web applications? The most authoritative guidance in this domain comes from the **OWASP (Open Web Application Security Project) Top 10**. Rather than a formal standard, the OWASP Top 10 is a consensus-driven awareness document that identifies the most critical and prevalent security risks facing web applications. It serves as a vital tool for developers, architects, and defenders to prioritize their mitigation efforts.
+
+**Note:** The [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/) provides concise, actionable guidance on specific application security topics.
+
+### A01:2021 Broken Access Control
+
+Broken Access Control encompasses a class of vulnerabilities where users can gain access to data or perform actions beyond their intended permissions. These failures arise when an application's restrictions on authenticated users are not properly enforced, often due to logical flaws in the access control mechanism. A critical mistake is performing security checks on the client-side (e.g., in the user's browser), as such checks can be trivially bypassed. **Access control decisions must be made and enforced on the server.**
+
+A common manifestation is **Insecure Direct Object Referencing (IDOR)**, where an application exposes a direct reference to an internal implementation object, such as a file or database key. For instance, if a URL like `https://example.com/data?invoice_id=123` is used to retrieve a document, an attacker could manipulate the `invoice_id` parameter to access invoices belonging to other users, assuming the server fails to verify ownership for each request.
+
+A more severe example is **Privilege Esalation** - either vertical (elevation to administrator and access to admin-only resources) or horizontal (assuming access to the data or functions of another user, similar to previous example). The key to mitigating most A01 vulnerabilities is to never trust input provided from clients and enforce access control on the server-side with every single client request.
+
+### A02:2021 Cryptographic Failures
+
+This category addresses failures in protecting data, which can compromise both Confidentiality and Integrity. Such failures often serve as a root cause for other vulnerabilities; for instance, if cryptographic tokens used for authentication are compromised, it can lead directly to Broken Access Control (A01). The A02 category focuses on the protection of data *in transit* (moving across a network) and *at rest* (stored in a database, on disk, or on a client device).
+
+Common failures include:
+- **Transmitting data in cleartext:** For example, using HTTP instead of HTTPS for login forms or other sensitive data exchange, making it vulnerable to eavesdropping.
+- **Using weak or outdated cryptographic algorithms:** Employing algorithms with known vulnerabilities, such as the MD5 hash function or the RC4 stream cipher, which can be broken with modern computational resources.
+- **Improper key management:** This is a critical and frequent failure point, encompassing issues like hard-coding cryptographic keys in source code, using weak or default keys, or failing to implement a key rotation policy.
+- **Failing to validate token integrity:** Forgetting to verify the cryptographic signature on a JSON Web Token (JWT), for example, allows an attacker to modify the token's contents and potentially impersonate other users or elevate their privileges.
+- **Storing sensitive data without encryption:** Persisting user passwords, personal information, or session tokens in a non-encrypted or weakly hashed format.
+
+A robust security posture demands strong, industry-standard encryption for all sensitive data, both in transit and at rest, coupled with a secure key management lifecycle.
+
+### A03:2021 Injection
+
+Injection flaws are a broad class of vulnerabilities where an attacker can supply untrusted input to an application that is then relayed to an interpreter as part of a command or query. The core failure is the application's inability to separate untrusted user data from the intended command structure, allowing the interpreter to execute the malicious input.
+
+The most well-known example is **SQL Injection (SQLi)**. Consider an application that constructs a database query via string concatenation: `SELECT * FROM users WHERE username = '" + userName + "';`. If the application fails to sanitize the `userName` input, an attacker can submit a malicious payload like `' OR '1'='1`. The resulting query becomes `SELECT * FROM users WHERE username = '' OR '1'='1';`. The `OR '1'='1'` clause forces the `WHERE` condition to be true for every row, causing the database to return all users and effectively bypassing authentication.
+
+The definitive mitigation for SQLi is the use of **parameterized queries**, also known as prepared statements. This approach separates the query structure from the user-supplied data. The application first sends the query template with placeholders (e.g., `SELECT * FROM users WHERE username = ?;`) to the database engine. Then, it sends the user's input as a separate parameter. The database engine treats this input strictly as data and never as executable code, thus neutralizing the injection attack.
+
+While SQLi is common, injection is a broader problem that also includes **Cross-Site Scripting (XSS)**, where malicious scripts are injected into web pages and executed in victims' browsers, as well as injections into OS command interpreters, LDAP, or NoSQL databases.
+
+### A04:2021 Insecure Design
+
+Insecure Design is a broad category representing weaknesses that stem from a failure to incorporate security thinking into the application architecture from its inception. Unlike implementation bugs, these are flaws in the design itself, which can be costly and difficult to remediate later in the development lifecycle.
+
+- Lack of Threat Modeling. The core approach to investigating security of a design is by questioning design through a structured process of identifying potential threats and vulnerabilities. For example, suppose there is a "password reset" features which sends a reset link to the user's email. A secure design would require answering a secret question or sending a code to a trusted device _before_ the email is even sent, otherwise the security of the account reduces to that of the email inbox. Indeed, many services do not bother with considering such threat to be meaningful, allowing phishing to flourish today.
+- Flawed Business Logic. The application might function reliably, but the workflow itself might be exploitable. This sometimes happens to small e-shops: if the system checks the price only when you add an item to the cart, you might add it to a cart during the sale, and then still buy it at that price after the sale expires - allowing user to buy items at a lower, expired sale price.
+- Not Planning for Security Controls. The application design has to account for the need for separation of privileges, rate limiting, or other security controls, early on. If an internal admin application is built with the assumptions that all administrators are equally trusted, it might be harder to introduce fine-grained control - and if a junior administrator's account is compromised, the attacker might gain full control of the entire system because the design never planned for different levels of administrative access.
+
+This is a pretty common class despite its genericity, which requires a mitigation that extends beyond technological means - the design of application has to "shift left", moving security to the earliest possible point in the development lifecycle. Companies are obliged to define Secure Development Lifecycle in their strategic documents and integrate security practices like threat modeling and architecture reviews into every development stage, from initial idea to deployment and maintenance.
+
+For regular evaluation of new features and architectures, a common, relatively simple and effective way is to ask a number of question - according to a model abbreviated as STRIDE:
+1. Spoofing: can an attacker pretend to be another user?
+2. Tampering: can they modify data in transit or at rest?
+3. Repudiation: could a user deny having performed an action?
+4. Information Disclosure: can user access data it should not?
+5. Denial of Service: can user crash or disable the system for others?
+6. Elevation of Privilege: can a low-privilege user gain administrative rights?
+
+### A05:2021 Security Misconfiguration
+
+The application might have the strongest walls, good code, and best alarm systems and observability, but if the front door is open because of a configuration mistake, none of that matters. In operations, when security settings are defined, implemented, or maintained incorrectly, it is often the result of using insecure defaults, leaving temporary configurations in place. This category of vulnerabilities is commonly said to be all about human errors and lack of attention to detail during setup and maintenance - but I would argue that sensible defaults and clear heuristic warnings within applications are paramount for mitigating such issues.
+
+- **Default Credentials:** Many systems, from network hardware to databases, ship with well-known default credentials (e.g., `admin/admin`). Failing to change these immediately upon deployment provides an easy entry point for attackers.
+- **Verbose Error Messages:** Error pages that reveal excessive detail—such as full stack traces, internal file paths, or database schema information—can provide attackers with a roadmap of the system's internal architecture, aiding in further attacks.
+- **Unnecessary Services:** Exposing non-production features or running unnecessary services on a production server increases the attack surface, providing more potential vectors for compromise.
+- **Improper Environment Separation:** A classic misconfiguration is a web server configured to list the contents of directories. This can expose sensitive source code or configuration files (like `.git` directories). This often points to a deeper issue: a failure to use a hardened build and deployment process that ensures only necessary, sanitized artifacts are deployed to the production environment.
+
+### A06:2021 Vulnerable and Outdated Components
+
+Much like in real logistics, software delivery process has its own _supply chain_ which you might not always be able to trust. Modern applications and server operating systems often involve hundreds of third-party components - packages, libraries and frameworks. It means the application inherits the security posture of every one of those components - and if a library you rely on, directly or indirectly, has a security flaw, the application will have that same flaw.
+
+A particularly huge example was a severe remote code execution (RCE) vulnerability found in Log4j, an extremely common Java logging library, exposing millions of applications to an injection vulnerability where an attacker could get a server to run their code simply by getting the application to log a malicious string. Truly catastrophic.
+
+To avoid being targeted, application developers and operators must maintain an inventory of critical components and control which components can be added and removed, and try to stay informed by subscribing to security bulletins. Lately, there has been a plethora of automated scanning tools to detect vulnerable components, either using means built into package managers of modern programming languages, or using commercial platforms for Software Composition Analysis (SCA) to automatically find vulnerable dependencies and even suggest fixes to them with automatically submitted pull requests.
+
+In addition, it is worth to have clarity on the process of testing and deploying updates when a vulnerability is announces by maintaining an internal patching policy. The goal is to apply security patches quickly while ensuring they do not break the application.
+
+### A07:2021 Identification and Authentication Failures
+
+Also known as "Broken authentication", this category is all about weaknesses in how system confirms a user's identity and manages their access. This is often caused by A02:2021 Cryptographic Failures and also often leads to A01:2021 Broken Access Controls - if an attacker can bypass or compromise authentication, they can effectively impersonate legitimate users and gain access to their data and functions. Lack of Multi-Factor Authentication or weakness in its implementation, weak password policies, allowing brute-forcing by lack of rate limiting in login forms, or insecure session management (lack of session invalidation) are all citizens to this category.
+
+**Any web application MUST implement Multi-Factor Authentication.** Period. It is often said, you have security only when you have **no less than two out of three**: something you *know* (a password), something you *are* (biometric), or something you *have* (hardware token or a mobile phone).
+
+### A08:2021 Software and Data Integrity Failures
+
+At the core of this category are two issues:
+
+1. Software Integrity - when software relies on plugins, or modules from untrusted sources, repositories, or content delivery networks (CDNs), an attack like SolarWinds may be performed, compromising the software supply chain or build process, injecting malicious code into legitimate software updates. Thousands of organizations would then download and install trojanized updates, trusting their authenticity.
+2. Data Integrity - processing data without verifying its integrity. Insecure Deserialization, taking structured data (JSON or XML) and turning it back into an object in application memory, can be manipulated such that unexpected object types are created in memory, leading to denial of service, authentication bypass, or even remote code execution.
+
+The fundamental problem is that the question "can I really trust this thing I am about to run or process?" - is a lot harder and inherently relies on assumptions. Nonetheless, a crucial real-world practice is to use checksums to verify integrity of components - unique SHA-256 fingerprints of dynamically loaded components - and use secure and well-proven deserialization libraries. This category requires consideration during both development and operations alike - normally, a system administrator would know what `sha256sum` is.
+
+### A09:2021 Security Logging and Monitoring Failures
+
+This category addresses the failure to achieve adequate security observability. Without sufficient logging, monitoring, and alerting, an organization is effectively blind to malicious activity. When an attack occurs, defenders cannot perform effective incident response: they may not know an attack happened, let alone how it was perpetrated, what was compromised, or how to contain it.
+
+Effective observability relies on several components:
+- **Logging:** Collecting sufficient, high-quality logs of security-relevant events. This includes successful and failed authentication attempts, key administrative actions, and high-value transactions. Logs must be generated in a consistent format and must not inadvertently record sensitive data.
+- **Monitoring:** Actively analyzing logs for suspicious patterns. This is typically accomplished with a **Security Information and Event Management (SIEM)** system that aggregates logs from multiple sources and uses correlation rules to detect potential threats. To be effective, logs must be ingested and analyzed in near real-time.
+- **Alerting & Responding:** Having automated mechanisms to notify security personnel of detected anomalies and a predefined incident response plan. If alerting fails or is too noisy, an attacker may have an unlimited amount of time to operate within the network undetected. An effective response plan ensures that once an alert is confirmed, defenders can move quickly to contain the threat and recover the system.
+
+### A10:2021 Server-Side Request Forgery
+
+Server-Side Request Forgery (SSRF) tricks a server into acting as a proxy for the attacker through some feature that makes network requests to third-party resources specified by the user. A malicious actor can manipulate some application features to send crafted requests to unintended destination. This can lead to using legitimate feature as means to amplify Distributed Denial of Service (DDoS) attacks, or it can be used to bypass firewalls and access internal services that the server itself can reach, or read files in a local filesystem of the application server.
+
+Mitigation requires strict input validation using an allow-list of permitted domains and protocols, and implementing egress filtering on the server to block outbound connections to unexpected destinations.
+
+## Security Benchmarking
+
+OWASP Top 10 tells us *what* the common application-layer weaknesses are, but we also have common configuration guides and benchmarks to tell us *how* to harden the underlying infrastructure to technologically prevent many weaknesses and vulnerabilities in the first place.
+
+The [Center for Internet Security](https://www.cisecurity.org/cis-benchmarks) (CIS) is a non-profit organization that develops and promoted best-practice solutions for cyber defense in form of regularly published specific prescriptive configuration guides, covering commonly used technologies, including operating systems (Windows, Linux), cloud provider infrastructures (AWS, Azure, GCP), server software (Kubernetes) and network devices.
+
+CIS Benchmarks are developed through a global, consensus-based community of cybersecurity professionals, subject matter experts, and vendors, offering a practical, well-vetted, and widely accepted standard reference in form of actual step-by-step instructions to tailor system configuration to meet a Profile:
+
+- Level 1 Profile - baseline recommendation, designed to be practical to implement, safe towards business functionality while providing clear security benefit by reducing the attack surface; a minimum standard for any system.
+- Level 2 Profile - defense-in-depth for environments where security is paramount. Introduces configuration changes which may have some impact on functionality (e.g., disabling legacy services) and might need additional planning and testing.
+- STIG Profile - specialized profile which provides recommendations that map directly to the requirements of the Defense Information System Agency (DISA of the U.S. Department of Defense) STIGs, allowing an organization to achieve compliance for government-level sensitive data processing.
+
+## Ethical hacking
+
+Ethical hacking, or penetration testing, is a practice of attempting to penetrate computer systems and networks with the explicit permission of the owner to find vulnerabilities that a malicious actor could otherwise exploit. The objective is to improve the security posture of the targeted system by identifying weaknesses and proposing effective countermeasures, and the scope and rules of engagement for such activities are strictly defined in a formal contract to prevent misunderstanding and illegal activity.
+
+When a security researcher discovers a vulnerability in a public product or system, they must disclose them responsibly - privately notify the vendor or owner of the affected asset, providing all the technical details of the vulnerability, allow the vendor a reasonable and agreed-upon period to develop and deploy patches to remediate the issue, and only after the patch is available or the grace period has expired, may the researcher publicly disclose the vulnerability. In contrast, "full disclosure" is when vulnerability is made public immediately, and "no disclosure" would often imply exploiting, selling, or keeping it secret.
+
+## Conclusion
+
+This post establishes the foundational concepts of cybersecurity and context for further exploration of the topic for the reader. We began with the essential ontology and strategic objectives defined by the CIA triad, and examined the formal assurance framework of the Common Criteria, as well as practical, risk-based guidance of the OWASP Top 10.
