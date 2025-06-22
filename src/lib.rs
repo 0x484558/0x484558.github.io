@@ -1,6 +1,6 @@
 use leptos::prelude::*;
 use leptos_meta::*;
-use leptos_router::{components::*, path, hooks::use_navigate};
+use leptos_router::{components::*, hooks::use_navigate, path};
 
 pub mod about;
 pub mod blog;

@@ -1,6 +1,11 @@
 ---
 title: Cybersecurity
 date: 2025-06-22
+summary: A comprehensive introduction to information security fundamentals, covering the CIA triad, Common Criteria evaluation standards, OWASP Top 10 vulnerabilities, and practical security practices for modern applications.
+tags:
+  - security
+  - technology
+  - standards
 ---
 
 Security - whether information security or physical - exists at the intersection of asset valuation, threat modeling, and risk management. To understand security, let us give precise definitions to its fundamental components.

@@ -1,6 +1,12 @@
 ---
 title: The War for the Web
 date: 2025-06-20
+summary: Exploring the battle between three competing web development philosophies - the JavaScript Empire, the HTMX Reformation, and the WebAssembly Frontier - and how this blog embodies the compiled approach using Rust and WebAssembly.
+tags:
+  - web
+  - rust
+  - wasm
+  - htmx
 ---
 
 You're reading something unusual right now. These words weren't served from a database or rendered by a server. They weren't even loaded from a static file. Instead, they emerged from WebAssembly bytecode compiled Rust that carries its own content - a **self-contained web application**. Every blog article, including this one, is transformed from Markdown to Rust view code at compile time and embedded directly into the WASM binary you downloaded when you visited this site.
