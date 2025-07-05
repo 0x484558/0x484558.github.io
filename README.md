@@ -9,7 +9,9 @@ This is a Client-Side Rendered [Leptos](https://leptos.dev/) application, built 
 rustup target add wasm32-unknown-unknown
 # Install Trunk bundler
 cargo install trunk
-# Use Trunk to build the web app.
+# Run build.rs script and build the app core
+cargo build --release
+# Use Trunk to build the web app distribution
 trunk build --release
 ```
 
