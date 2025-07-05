@@ -294,12 +294,34 @@ nav ul {
     color: var(--text-muted, #6b7280);
 }
 
+/* Blog post meta styling */
+.post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.post-meta .date {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--h2-color);
+}
+
+.post-meta .author {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--h2-color);
+    font-style: italic;
+}
+
 /* Tags styling */
 .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .tag {
@@ -355,6 +377,12 @@ nav ul {
     .search-input {
         max-width: 100%;
         width: 100%;
+    }
+    
+    .post-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
     }
     
     .tags {

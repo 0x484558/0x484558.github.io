@@ -107,7 +107,10 @@ pub fn BlogPost() -> impl IntoView {
             view! {
                 <article>
                 <h1>{title}</h1>
-                <p>{date}</p>
+                <div class="post-meta">
+                    <p class="date">{date}</p>
+                    <p class="author">"by Vladyslav \"Hex\" Yamkovyi"</p>
+                </div>
                 <div class="tags">
                     {tags.iter().map(|tag| {
                         view! { <span class="tag">{*tag}</span> }
