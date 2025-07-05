@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="{{ config.default_language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {%- block title -%}
+    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ config.title }}</title>
+    {%- endblock title -%}
+    
+    {%- block meta -%}
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% elif page.summary %}{{ page.summary }}{% else %}{{ config.description }}{% endif %}">
+    <meta name="author" content="{{ config.author }}">
+    {% if page.extra.keywords %}
+    <meta name="keywords" content="{{ page.extra.keywords }}">
+    {% else %}
+    <meta name="keywords" content="{{ config.extra.keywords }}">
+    {% endif %}
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{% if page.extra.og_title %}{{ page.extra.og_title }}{% elif page.title %}{{ page.title }} - {{ config.title }}{% else %}{{ config.title }}{% endif %}">
+    <meta property="og:description" content="{% if page.extra.og_description %}{{ page.extra.og_description }}{% elif page.description %}{{ page.description }}{% elif page.summary %}{{ page.summary }}{% else %}{{ config.description }}{% endif %}">
+    <meta property="og:type" content="{% if page.extra.og_type %}{{ page.extra.og_type }}{% else %}{% if page %}article{% else %}website{% endif %}{% endif %}">
+    <meta property="og:url" content="{{ config.base_url }}{{ current_url | safe }}">
+    <meta property="og:site_name" content="{% if page.extra.og_site_name %}{{ page.extra.og_site_name }}{% else %}{{ config.title }}{% endif %}">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="{% if page.extra.twitter_card %}{{ page.extra.twitter_card }}{% else %}summary{% endif %}">
+    <meta name="twitter:title" content="{% if page.extra.twitter_title %}{{ page.extra.twitter_title }}{% elif page.title %}{{ page.title }} - {{ config.title }}{% else %}{{ config.title }}{% endif %}">
+    <meta name="twitter:description" content="{% if page.extra.twitter_description %}{{ page.extra.twitter_description }}{% elif page.description %}{{ page.description }}{% elif page.summary %}{{ page.summary }}{% else %}{{ config.description }}{% endif %}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ config.base_url }}{{ current_url | safe }}">
+    
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ get_url(path='rss.xml') }}">
+    
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ get_url(path='sitemap.xml') }}">
+    {%- endblock meta -%}
+    
+    {%- block structured_data -%}
+    {% if page %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{ page.title }}",
+        "description": "{% if page.description %}{{ page.description }}{% elif page.summary %}{{ page.summary }}{% endif %}",
+        "author": {
+            "@type": "Person",
+            "name": "{{ config.author }}",
+            "url": "{{ config.base_url }}"
+        },
+        "datePublished": "{{ page.date }}",
+        "url": "{{ config.base_url }}{{ page.permalink | safe }}",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ config.base_url }}{{ page.permalink | safe }}"
+        }
+    }
+    </script>
+    {% else %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Vladyslav Yamkovyi",
+        "alternateName": "Hex",
+        "jobTitle": "Chief Technology Officer",
+        "worksFor": {
+            "@type": "Organization",
+            "name": "aleph0 s.r.o."
+        },
+        "url": "{{ config.base_url }}",
+        "sameAs": [
+            "{{ config.extra.github }}",
+            "{{ config.extra.linkedin }}"
+        ],
+        "knowsAbout": [
+            "Rust Programming",
+            "WebAssembly",
+            "Cybersecurity",
+            "Systems Architecture",
+            "AI Infrastructure"
+        ]
+    }
+    </script>
+    {% endif %}
+    {%- endblock structured_data -%}
+    
+    {%- block styles -%}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.violet.min.css">
+    <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
+    {%- endblock styles -%}
+    
+    {%- block analytics -%}
+    {% if config.extra.google_analytics %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.google_analytics }}"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ config.extra.google_analytics }}');
+    </script>
+    {% endif %}
+    {%- endblock analytics -%}
+</head>
+<body>
+    {%- block header -%}
+    <header>
+        <hgroup>
+            <h1><a href="{{ get_url(path='@/_index.md') }}">{{ config.title }}</a></h1>
+            <p>0x484558</p>
+        </hgroup>
+        <nav>
+            <ul>
+                <li><a href="{{ get_url(path='@/blog/_index.md') }}">Blog</a></li>
+                <li><a href="{{ config.extra.github }}">GitHub</a></li>
+                <li><a href="{{ config.extra.linkedin }}">LinkedIn</a></li>
+            </ul>
+        </nav>
+    </header>
+    {%- endblock header -%}
+    
+    {%- block content -%}
+    {%- endblock content -%}
+    
+    {%- block footer -%}
+    <footer>
+        <p>
+            <span>
+                <a href="{{ get_url(path='rss.xml') }}">RSS</a> | 
+                <a href="{{ get_url(path='sitemap.xml') }}">Sitemap</a>
+            </span>
+            <small>© 2025 {{ config.author }}</small>
+        </p>
+    </footer>
+    {%- endblock footer -%}
+</body>
+</html>

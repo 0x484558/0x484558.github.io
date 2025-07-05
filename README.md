@@ -1,23 +1,26 @@
 # [0x484558.dev](https://0x484558.dev)
 
-This is a Client-Side Rendered [Leptos](https://leptos.dev/) application, built with [Rust](https://www.rust-lang.org/) compiled to [WebAssembly](https://webassembly.org/) and [semantic HTML5](https://web.dev/learn/html/semantic-html/) styled with [Pico CSS](https://picocss.com/).
+This is a static website built with [Zola](https://www.getzola.org/), a fast static site generator written in Rust. The site features a blog and portfolio content, styled with [Pico CSS](https://picocss.com/) and semantic HTML5.
 
-## Building
+## Writing
 
 ```sh
-# Add WASM target to Rust tooling
-rustup target add wasm32-unknown-unknown
-# Install Trunk bundler
-cargo install trunk
-# Run build.rs script and build the app core
-cargo build --release
-# Use Trunk to build the web app distribution
-trunk build --release
+# Build the site for production
+zola build
+# Serve the site locally with live reload
+zola serve
+# Build and check for broken links
+zola check
 ```
+
+- Blog posts go in `content/blog/`
+- Use front matter to set metadata (title, date, tags, etc.)
+- The site supports tags taxonomy for organizing posts
+- RSS feed is automatically generated at `/rss.xml`
 
 ## License
 
-Copyright (c) 2025 [0x484558](https://github.com/0x484558) & [Tibor "Jack" Sloboda](https://github.com/slobodaapl).
+Copyright (c) 2025 [0x484558](https://github.com/0x484558).
 
 This work is provided under a dual-license arrangement (MIT & CC-BY-4.0).
 

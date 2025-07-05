@@ -1,21 +1,18 @@
----
-title: "Vladyslav \"Hex\" Yamkovyi - Software Developer, Security Engineer & Systems Architect"
-date: "2025-01-01"
-summary: "CV of Vladyslav 'Hex' Yamkovyi - Rust Software Developer, Security Engineer & Systems Architect."
-tags: []
-description: "CV of Vladyslav 'Hex' Yamkovyi - Rust Software Developer, Security Engineer & Systems Architect."
-keywords: "rust, wasm, webassembly, security, blog, hex, cybersecurity, web, webgpu, cto, aleph0, systems architect"
-author: "Vladyslav 'Hex' Yamkovyi"
-og_title: "Vladyslav 'Hex' Yamkovyi - Software Developer & Systems Architect"
-og_description: "CV of Vladyslav 'Hex' Yamkovyi - Rust Software Developer, Security Engineer & Systems Architect."
-og_type: "website"
-og_url: "https://0x484558.dev"
-og_site_name: "Hex's Portfolio"
-twitter_card: "summary"
-twitter_title: "Vladyslav 'Hex' Yamkovyi - Software Developer & Systems Architect"
-twitter_description: "CV of Vladyslav 'Hex' Yamkovyi - Rust Software Developer, Security Engineer & Systems Architect."
-canonical_url: "https://0x484558.dev"
----
++++
+title = "Vladyslav \"Hex\" Yamkovyi - Software Developer, Security Engineer & Systems Architect"
+description = "CV of Vladyslav 'Hex' Yamkovyi - Rust Software Developer, Security Engineer & Systems Architect."
+template = "index.html"
+
+[extra]
+keywords = "rust, wasm, webassembly, security, blog, hex, cybersecurity, web, webgpu, cto, aleph0, systems architect"
+og_title = "Vladyslav 'Hex' Yamkovyi - Software Developer & Systems Architect"
+og_description = "CV of Vladyslav 'Hex' Yamkovyi - Rust Software Developer, Security Engineer & Systems Architect."
+og_type = "website"
+og_site_name = "Hex's Portfolio"
+twitter_card = "summary"
+twitter_title = "Vladyslav 'Hex' Yamkovyi - Software Developer & Systems Architect"
+twitter_description = "CV of Vladyslav 'Hex' Yamkovyi - Rust Software Developer, Security Engineer & Systems Architect."
++++
 
 <header>
 

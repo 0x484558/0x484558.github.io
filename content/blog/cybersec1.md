@@ -1,12 +1,11 @@
----
-title: Cybersecurity Fundamentals
-date: 2025-07-05
-summary: A comprehensive introduction to information security fundamentals, covering the CIA triad, Common Criteria evaluation standards, OWASP Top 10 vulnerabilities, and practical security practices for modern applications.
-tags:
-  - security
-  - technology
-  - standards
----
++++
+title = "Cybersecurity Fundamentals"
+date = 2025-07-05
+description = "A comprehensive introduction to information security fundamentals, covering the CIA triad, Common Criteria evaluation standards, OWASP Top 10 vulnerabilities, and practical security practices for modern applications."
+
+[taxonomies]
+tags = ["security", "technology", "standards"]
++++
 
 Security - whether information security or physical - exists at the intersection of asset valuation, threat modeling, and risk management. To understand information security as a domain, let us begin by introducing its fundamental concepts - minimum necessary prerequisites and general context.
 
@@ -66,7 +65,7 @@ It is not uncommon to also see **CIANA** pentad or pentagon, which expands the C
 
 One more important mnemonic to know that lays foundation of modern software security is the **Triple A's**.
 
-- **Authentication** should always be the first step, verifying the identity of a user or system, through passwords, biometrics, and security tokens.
+- **Authentication** should always be the first step, verifying the identity of a user or system, through passwords (something that the user *knows*), biometrics (something that the user *is*), and security tokens (something that the user *has*) - preferably, no less than two out of three (multi-factor authentication).
 - **Authorization** determines the specific actions and resources the verified user is permitted to access, by checking access control lists (ACLs) and permissions, ensuring users only have access to what they need.
 - **Accounting** (or Auditing) meticulously tracks user acitivities and resource consumption, creating a detailed log for security audits, billing, and forensic analysis in the event of security incident.
 
@@ -199,54 +198,48 @@ In addition, it is worth to have clarity on the process of testing and deploying
 
 ### A07:2021 Identification and Authentication Failures
 
-Also known as "Broken authentication", this category is all about weaknesses in how system confirms a user's identity and manages their access. This is often caused by A02:2021 Cryptographic Failures and also often leads to A01:2021 Broken Access Controls - if an attacker can bypass or compromise authentication, they can effectively impersonate legitimate users and gain access to their data and functions. Lack of Multi-Factor Authentication or weakness in its implementation, weak password policies, allowing brute-forcing by lack of rate limiting in login forms, or insecure session management (lack of session invalidation) are all citizens to this category.
+Authentication is the process of verifying the identity of a user or system. When authentication mechanisms are weak or broken, the entire security architecture of the application is compromised. The failures in this category historically were called "Broken Authentication" and include anything from compromised passwords to issues with multi-factor authentication.
 
-**Software applications MUST implement Multi-Factor Authentication whenever there is an opportunity to do so.** It is often said, you have security only when you have **no less than two out of three**: something you *know* (a password), something you *are* (biometric), or something you *have* (hardware token or a mobile phone).
+- **Weak Password Policies:** Allowing or requiring weak passwords, such as "password123" or "admin", makes accounts vulnerable to brute-force attacks or dictionary attacks.
+- **Credential Stuffing:** This occurs when users reuse passwords across multiple services. If one service is compromised, attackers can use the leaked credentials to access other services.
+- **Session Management Issues:** Improper session handling can lead to session hijacking, where an attacker can steal or predict a user's session token and impersonate them.
+- **Insecure Password Recovery:** Weak password reset mechanisms that rely on predictable questions or email confirmation without proper verification can be exploited.
+- **Multi-Factor Authentication (MFA) Bypass:** Flaws in MFA implementation can allow attackers to bypass the additional security layer, such as accepting SMS codes that were never sent or allowing users to skip MFA under certain conditions.
+
+Strong authentication mechanisms include implementing robust password policies, using multi-factor authentication, protecting against brute-force attacks through rate limiting, and ensuring secure session management with proper timeout and invalidation procedures.
 
 ### A08:2021 Software and Data Integrity Failures
 
-At the core of this category are two issues:
+This category addresses failures in code and infrastructure that do not protect against integrity violations. This includes scenarios where an application relies on plugins, libraries, or modules from untrusted sources, repositories, and content delivery networks (CDNs) without proper verification.
 
-1. Software Integrity - when software relies on plugins, or modules from untrusted sources, repositories, or content delivery networks (CDNs), an attack like SolarWinds may be performed, compromising the software supply chain or build process, injecting malicious code into legitimate software updates. Thousands of organizations would then download and install trojanized updates, trusting their authenticity.
-2. Data Integrity - processing data without verifying its integrity. Insecure Deserialization, taking structured data (JSON or XML) and turning it back into an object in application memory, can be manipulated such that unexpected object types are created in memory, leading to denial of service, authentication bypass, or even remote code execution.
+- **Unsigned or Improperly Signed Code:** Applications that automatically update from untrusted sources without verifying the integrity of the code can be compromised. For example, if a JavaScript library is served from a CDN without proper integrity checks, an attacker who compromises the CDN can inject malicious code into the application.
+- **Insecure CI/CD Pipelines:** Compromised build and deployment pipelines can inject malicious code into applications. This is particularly dangerous because the malicious code appears to come from a trusted source.
+- **Deserialisation Vulnerabilities:** Applications that deserialize untrusted data without proper validation can execute arbitrary code. This is particularly common in languages like Java and Python, where serialized objects can contain executable code.
 
-The fundamental problem is that the question "can I really trust this thing I am about to run or process?" - is a lot harder and inherently relies on assumptions. Nonetheless, a crucial real-world practice is to use checksums to verify integrity of components - unique SHA-256 fingerprints of dynamically loaded components - and use secure and well-proven deserialization libraries. This category requires consideration during both development and operations alike - normally, a system administrator would know what `sha256sum` is.
+To mitigate these risks, applications should verify the integrity of all code and data, use secure CI/CD pipelines with proper access controls, and avoid deserializing untrusted data without proper validation.
 
 ### A09:2021 Security Logging and Monitoring Failures
 
-This category addresses the failure to achieve adequate security observability. Without sufficient logging, monitoring, and alerting, an organization is effectively blind to malicious activity. When an attack occurs, defenders cannot perform effective incident response: they may not know an attack happened, let alone how it was perpetrated, what was compromised, or how to contain it.
+Security logging and monitoring is crucial for detecting and responding to security incidents. However, many applications have insufficient logging, making it difficult to detect breaches or understand the scope of an incident.
 
-Effective observability relies on several components:
-- **Logging:** Collecting sufficient, high-quality logs of security-relevant events. This includes successful and failed authentication attempts, key administrative actions, and high-value transactions. Logs must be generated in a consistent format and must not inadvertently record sensitive data.
-- **Monitoring:** Actively analyzing logs for suspicious patterns. This is typically accomplished with a **Security Information and Event Management (SIEM)** system that aggregates logs from multiple sources and uses correlation rules to detect potential threats. To be effective, logs must be ingested and analyzed in near real-time.
-- **Alerting & Responding:** Having automated mechanisms to notify security personnel of detected anomalies and a predefined incident response plan. If alerting fails or is too noisy, an attacker may have an unlimited amount of time to operate within the network undetected. An effective response plan ensures that once an alert is confirmed, defenders can move quickly to contain the threat and recover the system.
+- **Insufficient Logging:** Applications that don't log security-relevant events, such as login attempts, access control failures, or data access, make it difficult to detect attacks or investigate incidents.
+- **Logs Not Monitored:** Even if logs are generated, they must be actively monitored. Logs that are generated but never reviewed are of little value.
+- **Ineffective Incident Response:** Without proper logging and monitoring, organizations cannot effectively respond to security incidents, leading to prolonged exposure and greater damage.
 
-### A10:2021 Server-Side Request Forgery
+Effective security logging should capture all security-relevant events, be tamper-resistant, and be actively monitored. Organizations should have incident response procedures in place and regular testing of their detection and response capabilities.
 
-Server-Side Request Forgery (SSRF) tricks a server into acting as a proxy for the attacker through some feature that makes network requests to third-party resources specified by the user. A malicious actor can manipulate some application features to send crafted requests to unintended destination. This can lead to using legitimate feature as means to amplify Distributed Denial of Service (DDoS) attacks, or it can be used to bypass firewalls and access internal services that the server itself can reach, or read files in a local filesystem of the application server.
+### A10:2021 Server-Side Request Forgery (SSRF)
 
-Mitigation requires strict input validation using an allow-list of permitted domains and protocols, and implementing egress filtering on the server to block outbound connections to unexpected destinations.
+Server-Side Request Forgery (SSRF) vulnerabilities occur when a web application fetches resources from URLs provided by users without proper validation. This allows attackers to force the server to make requests to unintended destinations, potentially exposing internal systems or services that are not directly accessible from the internet.
 
-## Security Benchmarking
+- **Internal Network Scanning:** Attackers can use SSRF to scan internal networks and discover services that are not exposed to the internet.
+- **Accessing Internal Services:** SSRF can be used to access internal services like databases, admin panels, or cloud metadata services that assume trust from internal requests.
+- **Cloud Metadata Exploitation:** In cloud environments, SSRF can be used to access metadata services that provide sensitive information like access keys or instance details.
 
-OWASP Top 10 tells us *what* the common application-layer weaknesses are, but we also have common configuration guides and benchmarks to tell us *how* to harden the underlying infrastructure to technologically prevent many weaknesses and vulnerabilities in the first place.
-
-The [Center for Internet Security](https://www.cisecurity.org/cis-benchmarks) (CIS) is a non-profit organization that develops and promoted best-practice solutions for cyber defense in form of regularly published specific prescriptive configuration guides, covering commonly used technologies, including operating systems (Windows, Linux), cloud provider infrastructures (AWS, Azure, GCP), server software (Kubernetes) and network devices.
-
-CIS Benchmarks are developed through a global, consensus-based community of cybersecurity professionals, subject matter experts, and vendors, offering a practical, well-vetted, and widely accepted standard reference in form of actual step-by-step instructions to tailor system configuration to meet a Profile:
-
-- Level 1 Profile - baseline recommendation, designed to be practical to implement, safe towards business functionality while providing clear security benefit by reducing the attack surface; a minimum standard for any system.
-- Level 2 Profile - defense-in-depth for environments where security is paramount. Introduces configuration changes which may have some impact on functionality (e.g., disabling legacy services) and might need additional planning and testing.
-- STIG Profile - specialized profile which provides recommendations that map directly to the requirements of the Defense Information System Agency (DISA of the U.S. Department of Defense) STIGs, allowing an organization to achieve compliance for government-level sensitive data processing.
-
-## Ethical hacking
-
-Ethical hacking, or penetration testing, is a practice of attempting to penetrate computer systems and networks with the explicit permission of the owner to find vulnerabilities that a malicious actor could otherwise exploit. The objective is to improve the security posture of the targeted system by identifying weaknesses and proposing effective countermeasures, and the scope and rules of engagement for such activities are strictly defined in a formal contract to prevent misunderstanding and illegal activity.
-
-When a security researcher discovers a vulnerability in a public product or system, they must disclose them responsibly - privately notify the vendor or owner of the affected asset, providing all the technical details of the vulnerability, allow the vendor a reasonable and agreed-upon period to develop and deploy patches to remediate the issue, and only after the patch is available or the grace period has expired, may the researcher publicly disclose the vulnerability. In contrast, "full disclosure" is when vulnerability is made public immediately, and "no disclosure" would often imply exploiting, selling, or keeping it secret.
+To prevent SSRF vulnerabilities, applications should validate and sanitize all URLs before making requests, use allowlists for permitted domains, and implement network segmentation to limit the impact of successful attacks.
 
 ## Conclusion
 
-This post establishes the foundational concepts of cybersecurity and context for further exploration of the topic for the reader. We began with the essential ontology and strategic objectives defined by the CIA triad, and examined the formal assurance framework of the Common Criteria, as well as practical, risk-based guidance of the OWASP Top 10.
+These fundamentals provide a foundation for understanding information security, but they are just the beginning. The field is continuously evolving, with new threats and vulnerabilities emerging regularly. Staying informed about current threats, best practices, and new technologies is essential for maintaining a strong security posture.
 
-It is important to understand that the primary goal of Information Security Management program is not just to implement technology; it is to create a framework that manages risks and ensures that all security activities - from source code to server configuration. Technological means are all about _tactics_, but they should be applied in a way that aligns with the _strategy_.
+The key to effective information security is not just understanding these concepts, but applying them systematically throughout the development and deployment lifecycle. Security is not a one-time consideration but an ongoing process that requires continuous attention and improvement.

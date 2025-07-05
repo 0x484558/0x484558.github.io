@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <header class="blog-header">
+        <h1>{{ section.title }}</h1>
+        <input
+            type="text"
+            placeholder="Search posts..."
+            class="search-input"
+            id="search-input"
+        />
+    </header>
+    
+    <section id="posts-container" aria-label="Blog posts">
+        {% for page in section.pages %}
+        <article class="card" data-search-content="{{ page.title | lower }} {% if page.summary %}{{ page.summary | lower }}{% endif %} {{ page.content | striptags | lower }} {% for tag in page.taxonomies.tags %}{{ tag | lower }} {% endfor %}">
+            <h2><a href="{{ page.permalink }}">{{ page.title }}</a></h2>
+            <p class="date">{{ page.date | date(format="%Y-%m-%d") }}</p>
+            {% if page.summary %}
+            <p class="summary">{{ page.summary }}</p>
+            {% endif %}
+            {% if page.taxonomies.tags %}
+            <ul class="tags">
+                {% for tag in page.taxonomies.tags %}
+                <li class="tag">{{ tag }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </section>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search-input');
+        const postsContainer = document.getElementById('posts-container');
+        const articles = postsContainer.querySelectorAll('article');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            articles.forEach(article => {
+                const searchContent = article.getAttribute('data-search-content');
+                if (searchContent.includes(searchTerm)) {
+                    article.style.display = 'block';
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+        });
+    });
+    </script>
+</main>
+{% endblock content %}
