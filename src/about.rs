@@ -28,6 +28,13 @@ pub fn About() -> impl IntoView {
         <h2>"Professional Experience"</h2>
 
         <article class="item">
+            <h3>"Chief Technology Officer & Co-founder"</h3>
+            <p class="meta">"aleph0 s.r.o. | 2025 – present"</p>
+            <p>"As CTO at aleph0, I drive the development of future-proof intelligent software systems at the frontier of domain. Focused on building hyper converged solutions, covering both local-first computations and cloud platforms."</p>
+            <p>"My mission is to transform abstract complexity into reliable and practical systems that deliver measurable value. Through combination of rigorous engineering principles with forward-leaning innovation, I create infrastructures and AI-augmented products that last, adapt, and lead."</p>
+        </article>
+
+        <article class="item">
             <h3>"Backend Engineer, AI R&D"</h3>
             <p class="meta">"NetFire LLC | 2024 – present"</p>
             <p>"Working under the supervision of Ing. Tibor Sloboda, VP of AI Strategy and Doctoral Researcher at Vision and Graphics Group, FIIT STU, I design and implement robust and efficient infrastructure for AI research and development."</p>
