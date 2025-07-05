@@ -52,6 +52,7 @@ pub fn Header() -> impl IntoView {
     <ul>
         <li><a href="/blog">Blog</a></li>
         <li><a href="https://github.com/0x484558">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/0x484558">LinkedIn</a></li>
     </ul>
     </nav>
     </header>
