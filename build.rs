@@ -757,7 +757,7 @@ fn generate_index_html(about_data: &PostData, base_url: &str) -> Result<String, 
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.violet.min.css"/>
     <link data-trunk rel="rust" data-wasm-opt="z" data-weak-refs />
-    <link data-trunk rel="css" href="public/style.css"/>
+    <link data-trunk rel="css" href="style.css"/>
     <link data-trunk rel="copy-file" href="404.html"/>
     <link data-trunk rel="copy-file" href="target/sitemap.xml"/>
     <link data-trunk rel="copy-file" href="target/robots.txt"/>
