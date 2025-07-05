@@ -401,11 +401,6 @@ fn generate_html_file(post_data: &PostData, base_url: &str) -> Result<String, Bo
         </div>
         <div class="tags">{}</div>
 
-        <div class="redirect-notice">
-            <strong>Note:</strong> This is a static version for search engines. 
-            <a href="/blog/{}">View the interactive version</a> for the full experience.
-        </div>
-
         <div class="content">
             {}
         </div>
@@ -431,7 +426,7 @@ fn generate_html_file(post_data: &PostData, base_url: &str) -> Result<String, Bo
     html_escape(title), html_escape(summary), canonical_url,
     html_escape(title), html_escape(summary), canonical_url,
     html_escape(title), html_escape(summary), base_url, date, canonical_url, canonical_url,
-    html_escape(title), date, tags_html, slug, body, slug);
+    html_escape(title), date, tags_html, body, slug);
 
     Ok(html)
 }
