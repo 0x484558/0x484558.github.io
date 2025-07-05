@@ -1,6 +1,6 @@
 ---
-title: Cybersecurity
-date: 2025-06-22
+title: Cybersecurity Fundamentals
+date: 2025-07-05
 summary: A comprehensive introduction to information security fundamentals, covering the CIA triad, Common Criteria evaluation standards, OWASP Top 10 vulnerabilities, and practical security practices for modern applications.
 tags:
   - security
@@ -8,7 +8,9 @@ tags:
   - standards
 ---
 
-Security - whether information security or physical - exists at the intersection of asset valuation, threat modeling, and risk management. To understand security, let us give precise definitions to its fundamental components.
+Security - whether information security or physical - exists at the intersection of asset valuation, threat modeling, and risk management. To understand information security as a domain, let us begin by introducing its fundamental concepts - minimum necessary prerequisites and general context.
+
+## Fundamentals of Security
 
 - **Assets** - Objects of protection requiring security measures. These manifest across multiple domains: physical (hardware infrastructure, facilities), informational (data at rest, data in transit, intellectual property), and reputational (brand trust, market confidence).
 - Assets are subject to **Threats** - Sources of potential harm, characterized by capability, intent, and opportunity. These range from non-directed environmental hazards to sophisticated Advanced Persistent Threats (APTs) with nation-state backing.
@@ -17,21 +19,60 @@ Security - whether information security or physical - exists at the intersection
 
 Security, therefore, is a practice of identifying assets, understanding the threats and vulnerabilities, and putting up defenses (controls or countermeasures) to prevent attacks.
 
-This post introduces fundamental concepts required to understand information security as a domain - minimum necessary prerequisites and general context.
+Organizations employ various categories controls to implement security:
 
-## Confidentiality, Integrity, Availability
+- **Technical** - hardware and software mechanisms to protect assets, such as firewalls, encryption, or key card room access;
+- **Managerial** - policies and guidelines that direct the security program and day-to-day operations to keep risks in check;
+- **Operational** - supportive procedures, such as security awareness training, incident response plans, and backup and recovery procedures;
+- **Physical** - locks, fences, security guards, and environmental controls.
 
-The strategic objectives of any information security program are articulated through the **CIA triad** - Confidentiality, Integrity, and Availability, are three principles representing the fundamental goals that security infrastructure strives to achieve.
+These categories can be further typed by their function:
+
+- **Preventative** - to stop incidents before they happen, like firewalls and access control lists;
+- **Deterrent** - to discourage potential attackers, like warnings or visible presence of security cameras;
+- **Corrective** - to remediate issues and restore systems to their normal state, like restoring backups or patching vulnerabilities;
+- **Compensating** - alternative measures for cases when failure of primary control is expected, such as increased monitoring when a system cannot be patched;
+- **Directive** - administrative security policies, such as acceptable use policy.
+
+### CIA triad
+
+The strategic objectives of any information security program are articulated through the **CIA triad** - **Confidentiality**, **Integrity**, and **Availability**, are three principles representing the fundamental goals that security infrastructure strives to achieve.
 
 **Confidentiality** implements the concealment of information and resources, ensuring that sensitive data remains accessible only to authorized parties. This principle extends beyond simple secrecy to encompass sophisticated access control mechanisms based on the principles of least privilege and need-to-know. The implementation of confidentiality relies heavily on cryptographic controls, particularly encryption for data-in-transit (protecting information as it moves across networks) and data-at-rest (securing stored information). Modern confidentiality measures must also address inference attacks, where seemingly innocuous data can be combined to reveal sensitive information, and/or covert channels for information leakage.
 
+> **Encryption** is the process of scrambling plaintext (readable data) into ciphertext (unreadable data) using an algorithm _with a trapdor_ such that the result cannot be reversed into plaintext without a correct _key_. In **symmetric encryption**, the same key can be used to both encrypt and decrypt data, while in **asymmetric encryption**, a key pair is used: a _public key_, which can be shared and used to encrypt data, and a _private key_, which is kept in secrecy by recipient of encrypted data so that only the recipient can "unscramble" the data.
+
 **Integrity** concerns the trustworthiness of data and systems, manifesting in two distinct but related forms. Data integrity ensures that information cannot undergo unauthorized modification, whether through malicious action or accidental corruption. System integrity guarantees that computational systems perform their intended functions without unauthorized alterations to their behavior. Cryptographic hash functions serve as the mathematical foundation for verifying data integrity, producing unique fingerprints that reveal any modifications. Beyond technical controls, integrity relies on comprehensive change management processes, audit trails, and version control systems that create an immutable record of all modifications.
+
+> A **hash** is a fixed-fize number, typically encoded in hexadecimal string, generated by a unidirectional mathematical function called a _hash algorithm_ (like SHA-256). Such a function takes input of arbitrary size and produces a unique, fixed-length output, such that even a miniscule change to the initial data will result in a completely dufferent hash. This supplements integrity verification because presence of errors or changes in data would cause easily identifiable change in its hash.
 
 **Availability** ensures that systems and data remain reliably accessible to authorized users when needed. This principle confronts both accidental failures—hardware malfunctions, software bugs, or human errors—and deliberate attacks such as Denial-of-Service (DoS) campaigns. Achieving high availability requires architectural decisions including redundancy at multiple levels (from RAID storage to geographically distributed data centers), load balancing to distribute requests across multiple servers, and comprehensive disaster recovery planning that addresses both immediate failover and long-term business continuity.
 
 The relationship among these three principles reveals fundamental tensions in security design. Enhanced confidentiality through encryption can compromise availability if cryptographic keys become inaccessible, effectively rendering data permanently unreadable. Aggressive availability measures, such as widespread data replication, multiply the attack surface for confidentiality breaches and create synchronization challenges for maintaining integrity. Similarly, stringent integrity controls through digital signatures and verification processes can introduce latency that degrades availability. These tensions cannot be eliminated but must be carefully balanced based on the specific risk profile and operational requirements of each system.
 
 The CIA triad also exhibits interesting emergent properties when considered holistically. For instance, the concept of "non-repudiation" - ensuring that parties cannot deny their actions - emerges from the intersection of integrity (proving data hasn't been altered) and confidentiality (protecting the cryptographic credentials that establish identity). Similarly, "authenticity" arises from combining all three principles: confidentiality of authentication credentials, integrity of identity assertions, and availability of authentication services.
+
+### CIANA pentad
+
+It is not uncommon to also see **CIANA** pentad or pentagon, which expands the CIA triad by elevating two critical components - **Non-Repudiation** and **Authenticity** - as core principles. When dealing with security incidents which already manifest, having track of provenance is paramount during forensic analysis, and in itself is deterring for many risks.
+
+**Non-Repudiation** provides assurance that an actor cannot later falsely deny having performed an action, which provides legally admissible proof of origin and receipt, making digital systems as binding as their physical counterparts. The primary technical control here is the use of *digital signatures*, which cryptographically bind an individual's identity to data.
+
+> One can think about digital signatures as a partial case of encryption in asymmetric cryptography, where the hash of authentic data is encrypted with _private_ key and not public key ("signed"), and attached to the file. A block of data signed with a private key would be decryptable by anyone with the associated public key, and would produce a hash of original data - but only one party can produce a valid signature for any given hash such that "decrypting" with public key would yield the original intended hash. Given trust in possession of correct public key, this provides with ability to verify that received data was not modified - by computing its hash and comparing to one contained in signature.
+
+**Authenticity** is the guarantee that data, communications, and parties involved, are gneuine and not counterfeit or impersonated. This is closely related to integrity, but in addition to ensuring that data has not been altered, authenticity also uses *digital signatures* to confirm data origin. A message with attached plaintext hash could have perfect integrity, but lack authenticity if it was sent by an imposter. Authenticity is achieved through a variety of mechanisms, which in addition to signing include message authentication codes, and require sophisticated key infrastructure management to bind public keys to verifiable real-world identities via Certificate Authorities (CAs) which are used to build a chain of trust by signing other public keys as authenticated data, assuring users that they are interacting with legitimate entities when they visit HTTPS websites.
+
+### Triple A's and Zero Trust
+
+One more important mnemonic to know that lays foundation of modern software security is the **Triple A's**.
+
+- **Authentication** should always be the first step, verifying the identity of a user or system, through passwords, biometrics, and security tokens.
+- **Authorization** determines the specific actions and resources the verified user is permitted to access, by checking access control lists (ACLs) and permissions, ensuring users only have access to what they need.
+- **Accounting** (or Auditing) meticulously tracks user acitivities and resource consumption, creating a detailed log for security audits, billing, and forensic analysis in the event of security incident.
+
+One can argue that a rigorous implementation of mentioned A's would constitute a successful implementation of Zero Trust Model, built on the principle of "never trust, always verify". While the term "zero trust" is subject of some controversy in the domain for its excessive use by "marketing and effective management people", it is nonetheless a solid and clear idea, to operate on the assumption that threats exist both inside and outside the network, no user or system should be trusted by default, regardless of their location and position.
+
+Nonetheless, when aiming to implement Zero Trust Model, an IT infrastructure would often converge to a clear separation of the **control plane** from the **data plane**. The *control plane* is where access decision are made; it focuses on adaptive identity and context awareness to reduce the potential threat scope, implements policy-driven access controls, and creates secured zones to isolate resources. The *data plane* is where these policies are applied and enforced - it consists of the subject or system requesting access, a policy engine that makes the access decision based on the control plane's policies, a policy administrator that pushes policies to the enforcement points, and the policy enforcement points themselves, which grant or deny access to the data. This continuous verification and granular access control significantly enhances an organization's security posture and automatically ensures compliance, when implemented systematically and universally.
 
 ## Security Assessment Criteria
 
@@ -160,7 +201,7 @@ In addition, it is worth to have clarity on the process of testing and deploying
 
 Also known as "Broken authentication", this category is all about weaknesses in how system confirms a user's identity and manages their access. This is often caused by A02:2021 Cryptographic Failures and also often leads to A01:2021 Broken Access Controls - if an attacker can bypass or compromise authentication, they can effectively impersonate legitimate users and gain access to their data and functions. Lack of Multi-Factor Authentication or weakness in its implementation, weak password policies, allowing brute-forcing by lack of rate limiting in login forms, or insecure session management (lack of session invalidation) are all citizens to this category.
 
-**Any web application MUST implement Multi-Factor Authentication.** Period. It is often said, you have security only when you have **no less than two out of three**: something you *know* (a password), something you *are* (biometric), or something you *have* (hardware token or a mobile phone).
+**Software applications MUST implement Multi-Factor Authentication whenever there is an opportunity to do so.** It is often said, you have security only when you have **no less than two out of three**: something you *know* (a password), something you *are* (biometric), or something you *have* (hardware token or a mobile phone).
 
 ### A08:2021 Software and Data Integrity Failures
 
@@ -207,3 +248,5 @@ When a security researcher discovers a vulnerability in a public product or syst
 ## Conclusion
 
 This post establishes the foundational concepts of cybersecurity and context for further exploration of the topic for the reader. We began with the essential ontology and strategic objectives defined by the CIA triad, and examined the formal assurance framework of the Common Criteria, as well as practical, risk-based guidance of the OWASP Top 10.
+
+It is important to understand that the primary goal of Information Security Management program is not just to implement technology; it is to create a framework that manages risks and ensures that all security activities - from source code to server configuration. Technological means are all about _tactics_, but they should be applied in a way that aligns with the _strategy_.

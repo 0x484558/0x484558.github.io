@@ -43,16 +43,16 @@ pub fn App() -> impl IntoView {
 pub fn Header() -> impl IntoView {
     view! {
     <header>
-        <hgroup>
-        <h1><a href="/">Hex</a></h1>
-        <p>0x484558</p>
-        </hgroup>
-        <nav>
-            <ul>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="https://github.com/0x484558">GitHub</a></li>
-            </ul>
-        </nav>
+    <hgroup>
+    <h1><a href="/">Hex</a></h1>
+    <p>0x484558</p>
+    </hgroup>
+    <nav>
+    <ul>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="https://github.com/0x484558">GitHub</a></li>
+    </ul>
+    </nav>
     </header>
     }
 }

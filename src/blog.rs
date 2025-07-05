@@ -1,7 +1,7 @@
 use leptos::prelude::*;
+use leptos_meta::{Meta, Title};
 use leptos_router::{hooks::use_params, params::Params};
 use wasm_bindgen::JsCast;
-use leptos_meta::{Title, Meta};
 
 include!(concat!(env!("OUT_DIR"), "/posts.rs"));
 
@@ -106,14 +106,14 @@ pub fn BlogPost() -> impl IntoView {
 
             view! {
                 <article>
-                    <h1>{title}</h1>
-                    <p>{date}</p>
-                    <div class="tags">
-                        {tags.iter().map(|tag| {
-                            view! { <span class="tag">{*tag}</span> }
-                        }).collect_view()}
-                    </div>
-                    <div inner_html=body></div>
+                <h1>{title}</h1>
+                <p>{date}</p>
+                <div class="tags">
+                    {tags.iter().map(|tag| {
+                        view! { <span class="tag">{*tag}</span> }
+                    }).collect_view()}
+                </div>
+                <div inner_html=body></div>
                 </article>
             }
         }}
