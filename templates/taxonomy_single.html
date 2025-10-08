@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Posts tagged "{{ term.name }}" - {{ config.title }}</title>
+{% endblock title %}
+
+{% block content %}
+<main>
+    <h1>Posts tagged "{{ term.name }}"</h1>
+    <p>{{ term.pages | length }} post{% if term.pages | length > 1 %}s{% endif %} tagged with "{{ term.name }}":</p>
+    
+    {% for page in term.pages %}
+    <article class="card">
+        <h2><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h2>
+        <aside class="post-meta">
+            <p class="date">{{ page.date | date(format="%B %d, %Y") }}</p>
+            {% if page.extra.author %}
+            <p class="author">by {{ page.extra.author }}</p>
+            {% endif %}
+        </aside>
+        {% if page.summary %}
+        <p class="summary">{{ page.summary }}</p>
+        {% endif %}
+        {% if page.taxonomies.tags %}
+        <ul class="tags">
+            {% for tag in page.taxonomies.tags %}
+            <li>
+                <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="tag">{{ tag }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </article>
+    {% endfor %}
+</main>
+{% endblock content %}

@@ -1,0 +1,63 @@
+title = "Hex"
+base_url = "https://0x484558.dev"
+description = "Blog posts by Hex, covering Rust, emerging web standards like WebAssembly, cybersecurity and other technology topics."
+author = "Hex"
+
+# Language and locale
+default_language = "en"
+build_search_index = true
+
+# Theme settings
+compile_sass = true
+minify_html = true
+
+# Content organization
+generate_feeds = true
+feed_filenames = ["rss.xml"]
+feed_limit = 20
+
+# Build settings
+hard_link_static = false
+
+# Link checker settings
+[link_checker]
+internal_level = "error"
+external_level = "warn"
+
+# Markdown settings
+[markdown]
+highlight_code = true
+highlight_theme = "base16-ocean-dark"
+render_emoji = true
+external_links_target_blank = true
+external_links_no_follow = true
+external_links_no_referrer = true
+smart_punctuation = true
+
+# Search settings
+[search]
+include_title = true
+include_description = true
+include_content = true
+include_path = false
+
+# Extra settings for custom data
+[extra]
+# Social links
+github = "https://github.com/0x484558"
+linkedin = "https://www.linkedin.com/in/0x484558"
+email = "hex@aleph0.ai"
+
+# SEO
+keywords = "rust, wasm, webassembly, security, blog, hex, cybersecurity, web, webgpu, cto, aleph0, systems architect"
+google_analytics = "G-ZMENS3T0TX"
+
+# Site settings
+show_reading_time = true
+show_word_count = false
+show_tags = true
+
+# Taxonomies
+[[taxonomies]]
+name = "tags"
+feed = true

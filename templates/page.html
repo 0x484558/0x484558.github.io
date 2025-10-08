@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if page.taxonomies.tags %}
+<main>
+    <article>
+        <h1>{{ page.title }}</h1>
+        <aside class="post-meta">
+            <p class="date">{{ page.date | date(format="%Y-%m-%d") }}</p>
+            <p class="author">by {{ config.author }}</p>
+        </aside>
+        <ul class="tags">
+            {% for tag in page.taxonomies.tags %}
+            <li class="tag">{{ tag }}</li>
+            {% endfor %}
+        </ul>
+        {{ page.content | safe }}
+    </article>
+</main>
+{% else %}
+<main class="resume">
+    {{ page.content | safe }}
+</main>
+{% endif %}
+{% endblock content %}
