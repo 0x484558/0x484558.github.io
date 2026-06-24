@@ -20,7 +20,7 @@ zola check
 
 ## License
 
-Copyright (c) 2025 [0x484558](https://github.com/0x484558).
+Copyright (c) 2025-2026 [0x484558](https://github.com/0x484558).
 
 This work is provided under a dual-license arrangement (MIT & CC-BY-4.0).
 

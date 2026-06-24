@@ -29,8 +29,6 @@ I specialize in building secure and performant systems at the intersection of sy
 
 Engineering is a philosophy of life. It is a way of thinking that extends beyond code; it is how one approaches problems, makes decisions, and understands the world. Good engineering requires understanding systems at multiple levels of abstraction simultaneously - and being an eternal learner.
 
----
-
 <section class="experience">
 
 ## Professional Experience
@@ -92,8 +90,6 @@ My thesis "Investigation of hyperbolic geometry of computer networks" received "
 
 </section>
 
----
-
 <section>
 
 ## Skills
@@ -101,8 +97,6 @@ My thesis "Investigation of hyperbolic geometry of computer networks" received "
 **Programming Languages: Rust, Go, C**, Java, C#, C++, Python, Bash
 
 **Technologies:** Kubernetes, Podman, PostgreSQL, Linux ops with systemd, virtualization (KVM/QEMU) and computer networking
-
-**Natural Languages:** English, Ukrainian, Russian
 
 </section>
 
@@ -114,7 +108,7 @@ My thesis "Investigation of hyperbolic geometry of computer networks" received "
 
 **Distributed & Local-First Computing:** Conflict-free Replicated Datatypes (CRDTs), Decentralized Protocols for Digital Sovereignty, Peer-to-Peer Architectures
 
-**AI/ML Technologies:** Chaotic Dynamics of Attention, Scalable ML Infrastructure, On-device LLM Inference, AI Security
+**AI/ML Technologies:** Scalable ML Infrastructure, On-device LLM Inference, AI Security
 
 </section>
 
